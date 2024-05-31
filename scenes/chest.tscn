@@ -1,0 +1,96 @@
+[gd_scene load_steps=13 format=3 uid="uid://1kvh0swf0v60"]
+
+[ext_resource type="Texture2D" uid="uid://bv871k446wtdc" path="res://art/sprites/objects/chest_01.png" id="1_sxdaw"]
+[ext_resource type="Script" path="res://scenes/chest.gd" id="2_v7d4d"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j05vw"]
+radius = 23.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w41ai"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_10qj0"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4r71p"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ppfq"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i08f4"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d84kh"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfhtv"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6blcb"]
+atlas = ExtResource("1_sxdaw")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ios1t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w41ai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_10qj0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4r71p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ppfq")
+}],
+"loop": false,
+"name": &"close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i08f4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d84kh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfhtv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6blcb")
+}],
+"loop": false,
+"name": &"open",
+"speed": 5.0
+}]
+
+[node name="Chest" type="Node2D"]
+script = ExtResource("2_v7d4d")
+
+[node name="chest_zone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="chest_zone"]
+shape = SubResource("CircleShape2D_j05vw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ios1t")
+animation = &"close"
+frame = 3
+frame_progress = 1.0
+
+[node name="close_timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="chest_zone" to="." method="_on_chest_zone_body_entered"]
+[connection signal="body_exited" from="chest_zone" to="." method="_on_chest_zone_body_exited"]
+[connection signal="timeout" from="close_timer" to="." method="_on_close_timer_timeout"]
